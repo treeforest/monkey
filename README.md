@@ -1,1 +1,1 @@
-# monkey
+# Monkey programming language
