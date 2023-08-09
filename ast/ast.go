@@ -2,15 +2,27 @@ package ast
 
 import "github.com/treeforest/monkey/token"
 
+//
+//  Node
+//  @Description: 节点
+//
 type Node interface {
 	TokenLiteral() string
 }
 
+//
+//  Statement
+//  @Description: 语句
+//
 type Statement interface {
 	Node
 	statementNode()
 }
 
+//
+//  Expression
+//  @Description: 表达式
+//
 type Expression interface {
 	Node
 	expressionNode()
