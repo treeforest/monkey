@@ -153,6 +153,10 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
+//
+//  ExpressionStatement
+//  @Description: 表达式语句
+//
 type ExpressionStatement struct {
 	//
 	//  Token
@@ -178,6 +182,10 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
+//
+//  PrefixExpression
+//  @Description: 前缀表达式
+//
 type PrefixExpression struct {
 	Token    token.Token
 	Operator string
@@ -198,6 +206,37 @@ func (pe *PrefixExpression) String() string {
 	out.WriteString("(")
 	out.WriteString(pe.Operator)
 	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}
+
+//
+//  InfixExpression
+//  @Description: 中缀表达式
+//
+type InfixExpression struct {
+	Token    token.Token
+	Left     Expression
+	Operator string
+	Right    Expression
+}
+
+func (ie *InfixExpression) expressionNode() {
+
+}
+
+func (ie *InfixExpression) TokenLiteral() string {
+	return ie.Token.Literal
+}
+
+func (ie *InfixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString(" " + ie.Operator + " ")
+	out.WriteString(ie.Right.String())
 	out.WriteString(")")
 
 	return out.String()
