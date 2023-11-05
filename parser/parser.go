@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-//  定义优先级
+// 优先级定义
 const (
 	_ int = iota
 	LOWEST
@@ -20,7 +20,7 @@ const (
 	CALL        // myFunction(X)
 )
 
-//  优先级表，用于将词法单元类型与其优先级相关联。
+// 优先级表，用于将词法单元类型与其优先级相关联。
 var precedences = map[token.TokenType]int{
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
@@ -39,8 +39,8 @@ type Parser struct {
 	curToken  token.Token
 	peekToken token.Token
 
-	prefixParseFns map[token.TokenType]prefixParseFn
-	infixParseFns  map[token.TokenType]infixParseFn
+	prefixParseFns map[token.TokenType]prefixParseFn // 前缀映射，词法单元对应的前缀解析函数
+	infixParseFns  map[token.TokenType]infixParseFn  // 中缀映射，词法单元对应的中缀解析函数
 }
 
 func New(l *lexer.Lexer) *Parser {
@@ -149,14 +149,13 @@ func (p *Parser) nextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
-//
 // ParseProgram
-//  @Description: 构造 AST 的根节点（*ast.Program）。然后遍历输入中的每个词法单元，
-//		直到遇见 token.EOF 词法单元。通过重复调用 nextToken 前移 p.curToken 和
-//		p.peekToken。
-//  @receiver p
-//  @return *ast.Program
 //
+//	 @Description: 构造 AST 的根节点（*ast.Program）。然后遍历输入中的每个词法单元，
+//			直到遇见 token.EOF 词法单元。通过重复调用 nextToken 前移 p.curToken 和
+//			p.peekToken。
+//	 @receiver p
+//	 @return *ast.Program
 func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
 	program.Statements = []ast.Statement{}
@@ -175,10 +174,13 @@ func (p *Parser) ParseProgram() *ast.Program {
 func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
+		// 解析 let 语句
 		return p.parseLetStatement()
 	case token.RETURN:
+		// 解析 return 语句
 		return p.parseReturnStatement()
 	default:
+		// 解析 表达式 语句
 		return p.parseExpressionStatement()
 	}
 }
@@ -283,6 +285,9 @@ func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParseFn) {
 }
 
 type (
+	// 前缀解析函数
 	prefixParseFn func() ast.Expression
-	infixParseFn  func(expression ast.Expression) ast.Expression
+
+	// 中缀解析函数
+	infixParseFn func(expression ast.Expression) ast.Expression
 )

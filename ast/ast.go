@@ -5,28 +5,22 @@ import (
 	"github.com/treeforest/monkey/token"
 )
 
-//
-//  Node
-//  @Description: 节点
-//
+// Node
+// @Description: 节点
 type Node interface {
 	TokenLiteral() string
 	String() string
 }
 
-//
-//  Statement
-//  @Description: 语句
-//
+// Statement
+// @Description: 语句
 type Statement interface {
 	Node
 	statementNode()
 }
 
-//
-//  Expression
-//  @Description: 表达式
-//
+// Expression
+// @Description: 表达式
 type Expression interface {
 	Node
 	expressionNode()
@@ -153,10 +147,8 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
-//
-//  ExpressionStatement
-//  @Description: 表达式语句
-//
+// ExpressionStatement
+// @Description: 表达式语句，由比表达式构成的语句，相当于对表达式的封装。
 type ExpressionStatement struct {
 	//
 	//  Token
@@ -182,12 +174,10 @@ func (es *ExpressionStatement) String() string {
 	return ""
 }
 
-//
-//  PrefixExpression
-//  @Description: 前缀表达式
-//
+// PrefixExpression
+// @Description: 前缀表达式
 type PrefixExpression struct {
-	Token    token.Token
+	Token    token.Token // 前缀词法单元，如 !
 	Operator string
 	Right    Expression
 }
@@ -211,12 +201,10 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 
-//
-//  InfixExpression
-//  @Description: 中缀表达式
-//
+// InfixExpression
+// @Description: 中缀表达式
 type InfixExpression struct {
-	Token    token.Token
+	Token    token.Token // 运算符词法单元，如 +
 	Left     Expression
 	Operator string
 	Right    Expression
